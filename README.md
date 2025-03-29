@@ -1,4 +1,4 @@
-# Spring Boot Hello World Ashutosh
+# Spring Boot Hello World Ashutosh Sanghi
 
 **A simple Spring Boot 2.x app to send hello world message to a user**
 
