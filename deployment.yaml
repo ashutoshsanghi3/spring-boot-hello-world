@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: helloworld-deployment
+  name: helloworld-deployment
+  namespace: default 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld-deployment
+
+  template:
+    metadata:
+      labels:
+        app: helloworld-deployment
+    spec:
+      containers:
+      - image: ashutoshsanghi/java-spring:latest
+        imagePullPolicy: Always
+        name: java-spring
