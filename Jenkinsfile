@@ -30,14 +30,15 @@ pipeline {
         }
       }
     }
-
     stage('Deploy to Kubernetes') {
-      when {
-        branch 'main'
-      }
       steps {
-        sh 'kubectl apply -f k8s/deployment.yaml'
-        sh 'kubectl apply -f k8s/service.yaml'
+        withCredentials([file(credentialsId: 'kubeconfig-credentials', variable: 'KUBECONFIG_FILE')]) {
+          sh '''
+            export KUBECONFIG=$KUBECONFIG_FILE
+            kubectl apply -f k8s/deployment.yaml
+            kubectl apply -f k8s/service.yaml
+          '''
+        }
       }
     }
   }
