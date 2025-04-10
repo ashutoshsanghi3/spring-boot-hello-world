@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mavenimg-deploy
+  name: mavenimg-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maven
+  template:
+    metadata:
+      labels:
+        app: maven
+    spec:
+      containers:
+      - image: ashutoshsanghi/mavenimg:latest
+        name: mavenimg
+        ports:
+            - containerPort: 8080
