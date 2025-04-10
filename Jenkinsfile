@@ -18,12 +18,15 @@ pipeline {
         branch 'main'
       }
       steps {
-        script {
-          dockerImage = docker.build("${DOCKER_IMAGE}:${env.BUILD_NUMBER}")
-        }
         withCredentials([usernamePassword(credentialsId: "${REGISTRY_CREDENTIALS}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-          sh "docker push ${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+          script {
+            def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+            sh """
+              docker build -t ${imageTag} .
+              echo $PASSWORD | docker login -u $USERNAME --password-stdin
+              docker push ${imageTag}
+            """
+          }
         }
       }
     }
